@@ -52,7 +52,7 @@ namespace JurassicPark
             // create a menu with (V)iew (A)dd (R)emove (T)ransfer (S)ummary (Q)uit
             Console.WriteLine();
             Console.WriteLine("Welcome to the Dinosaur Park!");
-            Console.Writeline();
+            Console.WriteLine();
             while (keepGoing)
             {
                 Console.WriteLine("What would you like to do?\n\n (V)iew a list of the dinosaurs\n (A)dd a dinosaur to the park\n (R)emove a dinosaur from the park\n (T)ransfer a dinosaur\n (S)ummarize the dinosaurs in the park\n (Q)uit");
@@ -65,21 +65,27 @@ namespace JurassicPark
                 else if (choice == "V")
                 {
                     // Create View method that takes a name or enclosure number and return a list of matching dinosaurs
-                    PromptForString("Would you like to view the dinosaurs or order of (N)ame or (E)nclosure number? ");
+                    PromptForString("Would you like to view the dinosaurs in order of (N)ame or (E)nclosure number?");
                     var nameOrEnclosure = Console.ReadLine().ToUpper();
                     if (nameOrEnclosure == "N")
                     {
                         var sortedByName = dinoList.OrderBy(dino => dino.Name);
-                        Console.WriteLine(sortedByName);
+                        foreach (var name in sortedByName)
+                        {
+                            Console.WriteLine(name.DisplayDinosaur());
+                        };
                     }
                     else if (nameOrEnclosure == "E")
                     {
                         var sortedByEnclosure = dinoList.OrderBy(dino => dino.EnclosureNumber);
-                        Console.WriteLine(sortedByEnclosure);
+                        foreach (var enclosure in sortedByEnclosure)
+                        {
+                            Console.WriteLine(enclosure.DisplayDinosaur());
+                        };
                     }
                     else
                     {
-                        Console.WriteLine("That's not an valid option. Please enter 'N' or 'E'");
+                        Console.WriteLine("That's not an valid option.");
                         //Add something to loop this back to the beginning of if statement
                     }
 
@@ -87,12 +93,18 @@ namespace JurassicPark
                 else if (choice == "A")
                 {
                     // Create method that asks for the values of the dinosaur and adds them to list
-
+                    var dino = new Dinosaur();
+                    dino.Name = PromptForString("What is the name of this dinosaur? ");
+                    dino.Diet = PromptForString("Is the dinosaur a carnivore or herbivore?");
+                    //Figure out date acquired
+                    dino.Weight = PromptForInteger("What does this dinosaur weight? ");
+                    dino.EnclosureNumber = PromptForInteger("Which enclosure would you like to put this dinosaur? ");
+                    dinoList.Add(dino);
                 }
-
             }
         }
     }
+}
 
 // Create a method that asks which dinosaur they want to remove, and remove from list
 // Create method that asks which dinosaur they want to transfer. Then asks where they want to move it to. Change the EnclosureNumber to their selection
